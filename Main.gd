@@ -1,0 +1,148 @@
+extends Node2D
+
+onready var pink_piece : Sprite = $PinkPiece
+onready var blue_piece : Sprite = $BluePiece
+export(Array, NodePath) var game_spaces_paths
+#export var question_boxes : Array[PackedScene]
+export(Array, PackedScene) var question_boxes
+var game_spaces : Array = [Spot]
+var place : int = 1
+onready var dice  := $Dice
+onready var timer := $Timer
+onready var canvas_layer: CanvasLayer = $CanvasLayer
+var score : int = 0
+onready var score_label: Label = $CanvasLayer/Score
+var pink_piece_turn : bool = true
+onready var turn_label: PanelContainer = $CanvasLayer/TurnLabel
+
+
+func _ready():
+	for path in game_spaces_paths:
+		var node = get_node(path)
+		if node and node is Position2D:
+			game_spaces.append(node)
+#	print("Game spaces:", game_spaces)  # Debug to confirm nodes
+	Events.connect("question_box_gone", self, "_on_question_box_gone")
+
+func _on_dice_dice_has_rolled(roll) -> void:
+	var piece
+	if pink_piece_turn:
+		piece = pink_piece
+	else:
+		piece = blue_piece		
+	
+#	print(roll)
+	roll = 100 # for testing
+
+	while roll > 0:
+		if piece.place < game_spaces.size():
+			move(piece, piece.place)
+			timer.start()                      
+			yield(timer, "timeout")     
+	#		print("MOVE REGULAR ")       
+			piece.place += 1
+			roll -= 1
+			print(piece.place)
+		else:
+			piece.place = game_spaces.size()
+			dice.can_click = true
+			pink_piece_turn = !pink_piece_turn
+			turn_label_switcher()
+			return
+			
+	if roll == 0: # signs of stop the move
+		dice.can_click = true
+		move(piece, piece.place)
+		timer.start()                      
+		yield(timer, "timeout")     
+#		print("MOVE REGULAR for roll = 0 ")    
+		if pink_piece_turn:
+			print("pink piece's turn")
+			pink_piece_turn = false
+		else:
+			print("blue piece's turn")
+			pink_piece_turn = true
+		
+		if game_spaces[piece.place].direction == Direction.WhichWay.BACK:# first check and move back
+			var two_spaces_back = piece.place - 2
+			while piece.place != two_spaces_back:    
+				piece.place -= 1
+				move(piece, piece.place)
+				timer.start()
+				yield(timer, "timeout")  
+#				print("MOVE BACK")   
+			
+			turn_label_switcher()
+
+		elif game_spaces[piece.place].direction == Direction.WhichWay.FORWARD:
+			var two_spaces_forward = piece.place + 2
+			while piece.place != two_spaces_forward:     
+				piece.place += 1
+#				print("MOVE forward ")      
+				move(piece, piece.place)
+				timer.start()
+				yield(timer, "timeout")    
+			
+			turn_label_switcher()	
+		elif game_spaces[piece.place].direction == Direction.WhichWay.QUESTION:		
+#			print("this question part is working.")	
+#			var question_box = preload("res://Question Boxes/questionbox.tscn")#LOAD IT
+			question_boxes.shuffle()
+						
+			var question_box = question_boxes.front() #LOAD IT
+			var question = question_box.instance() #INSTANCE IT
+			canvas_layer.add_child(question) #ADD IT
+			#POSITION IT
+			dice.can_click = false
+			
+		elif game_spaces[piece.place].direction == Direction.WhichWay.REGULAR:
+			turn_label_switcher()
+		
+func move(piece, place):	
+	var tween = Tween.new() # Create a new Tween node
+	add_child(tween)
+#	print("place: ", place)
+
+	# Animate the position of pink_piece from current to target position in 1 second
+	tween.interpolate_property(
+		piece, "position",          # property to animate
+		piece.position,             # start value
+		game_spaces[place].position,     # end value
+		1,                             # duration in seconds
+		Tween.TRANS_LINEAR,              # transition type (linear)
+		Tween.EASE_IN_OUT                # easing type (starts/ends slow, middle fast)
+	)
+
+	tween.start() 	# Start the tween
+	yield(tween, "tween_completed") # Wait until the tween completes
+	tween.queue_free() # Remove the tween node to free memory
+#	dice.can_click = true # this leads constant dice roll if pressed.
+
+
+func _on_question_box_gone(point):
+	print("Event bus correctly fired")
+	if point == true:
+		if !pink_piece_turn: # It seems confusign bec. the turn changes the time question box gone. 
+			pink_piece.score = pink_piece.score + 1
+			score_label.text = "Pink: " + str(pink_piece.score) + "\nBlue: " + str(blue_piece.score)
+		else:
+			blue_piece.score = blue_piece.score + 1
+			score_label.text = "Pink: " + str(pink_piece.score) + "\nBlue: " + str(blue_piece.score)
+		
+#		print(score)
+#		score_label.text = str(score)
+	yield(get_tree(), "idle_frame")
+	dice.can_click = true
+	turn_label_switcher()
+	
+func turn_label_switcher():
+	turn_label.visible = true 
+	
+	if pink_piece_turn:
+		turn_label.label.text = "Pink's turn"
+	else:
+		turn_label.label.text = "Blue's turn"
+		
+	
+	turn_label.timer.start()
+	
