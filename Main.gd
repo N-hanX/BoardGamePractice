@@ -14,6 +14,7 @@ var score : int = 0
 onready var score_label: Label = $CanvasLayer/Score
 var pink_piece_turn : bool = true
 onready var turn_label: PanelContainer = $CanvasLayer/TurnLabel
+onready var winner__screen = $"CanvasLayer/Winner Screen"
 
 
 func _ready():
@@ -36,6 +37,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 
 	while roll > 0:
 		if piece.place < game_spaces.size():
+			# if we've not won
 			move(piece, piece.place)
 			timer.start()                      
 			yield(timer, "timeout")     
@@ -44,11 +46,19 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			roll -= 1
 			print(piece.place)
 		else:
-			piece.place = game_spaces.size()
-			dice.can_click = true
-			pink_piece_turn = !pink_piece_turn
-			turn_label_switcher()
-			return
+			# if we've won
+			if blue_piece.place >= game_spaces.size() and pink_piece.place >= game_spaces.size():
+				# if both of these pieces are at the winner's circle
+				print("both won")
+				winner__screen.visible = true	
+				break
+			else:
+				# if just one is at the winner's circle
+				piece.place = game_spaces.size()
+				dice.can_click = true
+				pink_piece_turn = !pink_piece_turn
+				turn_label_switcher()
+				return
 			
 	if roll == 0: # signs of stop the move
 		dice.can_click = true

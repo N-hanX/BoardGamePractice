@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Art/pink piece.png" type="Texture" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Art/blue piece.png" type="Texture" id=9]
 [ext_resource path="res://piece.gd" type="Script" id=10]
 [ext_resource path="res://TurnLabel.tscn" type="PackedScene" id=11]
+[ext_resource path="res://winner_screen.tscn" type="PackedScene" id=12]
 
 [node name="Main" type="Node2D"]
 script = ExtResource( 2 )
@@ -121,5 +122,16 @@ margin_left = 235.0
 margin_top = 36.0
 margin_right = 403.0
 margin_bottom = 72.0
+
+[node name="Winner Screen" parent="CanvasLayer" instance=ExtResource( 12 )]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -146.0
+margin_top = -45.5
+margin_right = 146.0
+margin_bottom = 45.5
 
 [connection signal="dice_has_rolled" from="Dice" to="." method="_on_dice_dice_has_rolled"]
