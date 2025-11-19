@@ -33,7 +33,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		piece = blue_piece		
 	
 #	print(roll)
-	roll = 100 # for testing
+	roll = 6 # for testing
 
 	while roll > 0:
 		if piece.place < game_spaces.size():
@@ -44,13 +44,21 @@ func _on_dice_dice_has_rolled(roll) -> void:
 	#		print("MOVE REGULAR ")       
 			piece.place += 1
 			roll -= 1
-			print(piece.place)
+			print("moving to: ", piece.place)
 		else:
 			# if we've won
 			if blue_piece.place >= game_spaces.size() and pink_piece.place >= game_spaces.size():
 				# if both of these pieces are at the winner's circle
 				print("both won")
 				winner__screen.visible = true	
+				if pink_piece.score > blue_piece.score:
+					winner__screen.label.text = "Pink won!"
+					winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
+				elif blue_piece.score > pink_piece.score:
+					winner__screen.label.text = "Blue won!"
+					winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
+				else:
+					winner__screen.label.text = "Both won!"
 				break
 			else:
 				# if just one is at the winner's circle
@@ -61,6 +69,11 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				return
 			
 	if roll == 0: # signs of stop the move
+		if piece.place >= game_spaces.size():
+			dice.can_click = true
+			turn_label_switcher()
+			return
+		
 		dice.can_click = true
 		move(piece, piece.place)
 		timer.start()                      
@@ -109,24 +122,25 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			turn_label_switcher()
 		
 func move(piece, place):	
-	var tween = Tween.new() # Create a new Tween node
-	add_child(tween)
-#	print("place: ", place)
+	if piece.place < game_spaces.size():
+		var tween = Tween.new() # Create a new Tween node
+		add_child(tween)
+	#	print("place: ", place)
 
-	# Animate the position of pink_piece from current to target position in 1 second
-	tween.interpolate_property(
-		piece, "position",          # property to animate
-		piece.position,             # start value
-		game_spaces[place].position,     # end value
-		1,                             # duration in seconds
-		Tween.TRANS_LINEAR,              # transition type (linear)
-		Tween.EASE_IN_OUT                # easing type (starts/ends slow, middle fast)
-	)
+		# Animate the position of pink_piece from current to target position in 1 second
+		tween.interpolate_property(
+			piece, "position",          # property to animate
+			piece.position,             # start value
+			game_spaces[place].position,     # end value
+			1,                             # duration in seconds
+			Tween.TRANS_LINEAR,              # transition type (linear)
+			Tween.EASE_IN_OUT                # easing type (starts/ends slow, middle fast)
+		)
 
-	tween.start() 	# Start the tween
-	yield(tween, "tween_completed") # Wait until the tween completes
-	tween.queue_free() # Remove the tween node to free memory
-#	dice.can_click = true # this leads constant dice roll if pressed.
+		tween.start() 	# Start the tween
+		yield(tween, "tween_completed") # Wait until the tween completes
+		tween.queue_free() # Remove the tween node to free memory
+	#	dice.can_click = true # this leads constant dice roll if pressed.
 
 
 func _on_question_box_gone(point):
