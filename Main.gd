@@ -22,7 +22,8 @@ func _ready():
 		var node = get_node(path)
 		if node and node is Position2D:
 			game_spaces.append(node)
-#	print("Game spaces:", game_spaces)  # Debug to confirm nodes
+	print("Game spaces size:", game_spaces.size())  # Debug to confirm nodes
+#	print("Game spaces size:", game_spaces[game_spaces.size() - 1])
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
 
 func _on_dice_dice_has_rolled(roll) -> void:
@@ -33,8 +34,22 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		piece = blue_piece		
 	
 #	print(roll)
-	roll = 6 # for testing
-
+	roll = 20 # for testing
+	
+	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
+		# if both of these pieces are at the winner's circle
+		winner__screen.visible = true	
+		if pink_piece.score > blue_piece.score:
+			winner__screen.label.text = "Pink won!"
+			winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
+		elif blue_piece.score > pink_piece.score:
+			winner__screen.label.text = "Blue won!"
+			winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
+		else:
+			print("both won")
+			winner__screen.label.text = "Both won!"
+		return
+	
 	while roll > 0:
 		if piece.place < game_spaces.size():
 			# if we've not won
@@ -47,9 +62,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			print("moving to: ", piece.place)
 		else:
 			# if we've won
-			if blue_piece.place >= game_spaces.size() and pink_piece.place >= game_spaces.size():
+			if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 				# if both of these pieces are at the winner's circle
-				print("both won")
 				winner__screen.visible = true	
 				if pink_piece.score > blue_piece.score:
 					winner__screen.label.text = "Pink won!"
@@ -58,6 +72,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 					winner__screen.label.text = "Blue won!"
 					winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
 				else:
+					print("both won")
 					winner__screen.label.text = "Both won!"
 				break
 			else:
@@ -69,7 +84,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				return
 			
 	if roll == 0: # signs of stop the move
-		if piece.place >= game_spaces.size():
+		if piece.place >= game_spaces.size():	
 			dice.can_click = true
 			turn_label_switcher()
 			return
@@ -79,6 +94,20 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		timer.start()                      
 		yield(timer, "timeout")     
 #		print("MOVE REGULAR for roll = 0 ")    
+		if blue_piece.place >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
+			# if both of these pieces are at the winner's circle
+			winner__screen.visible = true	
+			if pink_piece.score > blue_piece.score:
+				winner__screen.label.text = "Pink won!"
+				winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
+			elif blue_piece.score > pink_piece.score:
+				winner__screen.label.text = "Blue won!"
+				winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
+			else:
+				print("both won")
+				winner__screen.label.text = "Both won!"
+			return
+			
 		if pink_piece_turn:
 			print("pink piece's turn")
 			pink_piece_turn = false
