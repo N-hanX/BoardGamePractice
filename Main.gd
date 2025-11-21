@@ -36,8 +36,6 @@ func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
 	roll = 6 # for testing
 	
-	if piece == pink_piece: roll = 20  # specific problem in this case 
-	
 	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 		# if both of these pieces are at the winner's circle
 		winner__screen.visible = true	
