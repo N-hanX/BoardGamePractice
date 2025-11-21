@@ -34,7 +34,9 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		piece = blue_piece		
 	
 #	print(roll)
-	roll = 20 # for testing
+	roll = 6 # for testing
+	
+	if piece == pink_piece: roll = 20  # specific problem in this case 
 	
 	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 		# if both of these pieces are at the winner's circle
@@ -47,7 +49,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
 		else:
 			print("both won")
-			winner__screen.label.text = "Both won!"
+			winner__screen.label.text = "It is a tie!"
+			winner__screen.texture_rect.texture = load("res://Art/both.png")
 		return
 	
 	while roll > 0:
@@ -73,7 +76,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 					winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
 				else:
 					print("both won")
-					winner__screen.label.text = "Both won!"
+					winner__screen.label.text = "It is a tie!"
+					winner__screen.texture_rect.texture = load("res://Art/both.png")
 				break
 			else:
 				# if just one is at the winner's circle
@@ -105,7 +109,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
 			else:
 				print("both won")
-				winner__screen.label.text = "Both won!"
+				winner__screen.label.text = "It is a tie!"
+				winner__screen.texture_rect.texture = load("res://Art/both.png")
 			return
 			
 		if pink_piece_turn:
