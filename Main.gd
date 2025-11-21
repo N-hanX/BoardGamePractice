@@ -14,8 +14,8 @@ var score : int = 0
 onready var score_label: Label = $CanvasLayer/Score
 var pink_piece_turn : bool = true
 onready var turn_label: PanelContainer = $CanvasLayer/TurnLabel
-onready var winner__screen = $"CanvasLayer/Winner Screen"
-
+onready var winner__screen: CenterContainer = $"CanvasLayer/Winner Screen"
+onready var piece
 
 func _ready():
 	for path in game_spaces_paths:
@@ -25,16 +25,26 @@ func _ready():
 	print("Game spaces size:", game_spaces.size())  # Debug to confirm nodes
 #	print("Game spaces size:", game_spaces[game_spaces.size() - 1])
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
-
-func _on_dice_dice_has_rolled(roll) -> void:
-	var piece
-	if pink_piece_turn:
+	piece = pink_piece # just initilization
+	
+func _input(event: InputEvent) -> void: # now signaling changed from dice 
+	if pink_piece_turn: # and signal change require to trigger it
 		piece = pink_piece
 	else:
 		piece = blue_piece		
 	
+	if event.is_action_pressed("ui_click") and dice.can_click == true:
+		if piece.i_won == false:
+			dice.roll()
+		else:
+			pink_piece_turn = !pink_piece_turn
+			turn_label_switcher()
+
+func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
 	roll = 6 # for testing
+	
+	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 	
 	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 		# if both of these pieces are at the winner's circle
@@ -80,6 +90,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			else:
 				# if just one is at the winner's circle
 				piece.place = game_spaces.size()
+				piece.i_won = true
 				dice.can_click = true
 				pink_piece_turn = !pink_piece_turn
 				turn_label_switcher()
