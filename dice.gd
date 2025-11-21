@@ -8,7 +8,7 @@ var can_click : bool = true
 func _ready() -> void:
 	randomize()
 
-func _unhandled_input(event: InputEvent) -> void:
+func roll():
 	if Input.is_action_just_pressed("ui_click") and can_click:
 		can_click = false
 		animation_player.play("Roll")
