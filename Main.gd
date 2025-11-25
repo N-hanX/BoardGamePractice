@@ -28,12 +28,10 @@ func _ready():
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
 #	piece = pink_piece # just initilization
 	Events.connect("send_piece", self,"_on_send_piece")
+
 	
 func _input(event: InputEvent) -> void: # now signaling changed from dice 
-	if pink_piece_turn: # and signal change require to trigger it
-		piece = pink_piece
-	else:
-		piece = blue_piece		
+	whose_turn_is_it()
 		
 	if event.is_action_pressed("ui_click") and dice.can_click == true:
 		print("Am I Here")
@@ -42,6 +40,12 @@ func _input(event: InputEvent) -> void: # now signaling changed from dice
 		else:
 			pink_piece_turn = !pink_piece_turn
 			turn_label_switcher()
+			
+func whose_turn_is_it():
+	if pink_piece_turn: # and signal change require to trigger it
+		piece = pink_piece
+	else:
+		piece = blue_piece		
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
@@ -105,7 +109,6 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			turn_label_switcher()
 			return
 		
-		dice.can_click = true
 		move(piece, piece.place)
 		timer.start()                      
 		yield(timer, "timeout")     
@@ -196,7 +199,7 @@ func _on_send_piece(sent_piece):
 		piece = blue_piece		
 	
 	print("THe turn is ", piece)
-	dice.can_click = true
+#	dice.can_click = true
 	
 
 func _on_question_box_gone(point):
