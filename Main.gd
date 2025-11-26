@@ -16,6 +16,7 @@ var pink_piece_turn : bool = true
 onready var turn_label: PanelContainer = $CanvasLayer/TurnLabel
 onready var winner__screen: CenterContainer = $"CanvasLayer/Winner Screen"
 onready var piece
+onready var audio_stream_player = $AudioStreamPlayer
 
 func _ready():
 	for path in game_spaces_paths:
@@ -185,11 +186,15 @@ func move(piece, place):
 			Tween.TRANS_LINEAR,              # transition type (linear)
 			Tween.EASE_IN_OUT                # easing type (starts/ends slow, middle fast)
 		)
-
+		
 		tween.start() 	# Start the tween
+		tween.connect("tween_completed", self, "_on_tween_done")
 		yield(tween, "tween_completed") # Wait until the tween completes
 		tween.queue_free() # Remove the tween node to free memory
 	#	dice.can_click = true # this leads constant dice roll if pressed.
+
+func _on_tween_done(object, key):
+	audio_stream_player.play()
 
 func _on_send_piece(sent_piece):
 	pink_piece_turn = sent_piece
