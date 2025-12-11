@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Art/pink piece.png" type="Texture" id=1]
 [ext_resource path="res://Main.gd" type="Script" id=2]
@@ -15,8 +15,10 @@
 [ext_resource path="res://Roll_For_First.tscn" type="PackedScene" id=13]
 [ext_resource path="res://Audio/board game sound.wav" type="AudioStream" id=14]
 [ext_resource path="res://Audio/Clement Panchout_ Village_ 2002.wav" type="AudioStream" id=15]
+[ext_resource path="res://Camera2D.tscn" type="PackedScene" id=16]
 
 [node name="Main" type="Node2D"]
+position = Vector2( 0, -5 )
 script = ExtResource( 2 )
 game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19") ]
 question_boxes = [ ExtResource( 7 ), ExtResource( 6 ) ]
@@ -148,7 +150,39 @@ margin_bottom = 220.0
 stream = ExtResource( 14 )
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 5, 6 )
 stream = ExtResource( 15 )
-autoplay = true
+
+[node name="Camera2D_PinkPiece" parent="." instance=ExtResource( 16 )]
+position = Vector2( 64, 144 )
+scale = Vector2( 1.39307, 1.39355 )
+anchor_mode = 0
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+target_path = NodePath("../PinkPiece")
+top_left_limit_path = NodePath("../Limits/TopLeft")
+bottom_right_limit_path = NodePath("../Limits/BottomRight")
+
+[node name="Camera2D_BluePiece" parent="." instance=ExtResource( 16 )]
+position = Vector2( 64, 176 )
+scale = Vector2( 1.34375, 1.40625 )
+anchor_mode = 0
+current = true
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
+target_path = NodePath("../BluePiece")
+top_left_limit_path = NodePath("../Limits/TopLeft")
+bottom_right_limit_path = NodePath("../Limits/BottomRight")
+
+[node name="Limits" type="Node" parent="."]
+
+[node name="TopLeft" type="Position2D" parent="Limits"]
+position = Vector2( 0, 4 )
+
+[node name="BottomRight" type="Position2D" parent="Limits"]
+position = Vector2( 640, 364 )
 
 [connection signal="dice_has_rolled" from="Dice" to="." method="_on_dice_dice_has_rolled"]
+
+[editable path="Camera2D_PinkPiece"]
+[editable path="Camera2D_BluePiece"]

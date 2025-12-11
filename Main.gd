@@ -17,6 +17,8 @@ onready var turn_label: PanelContainer = $CanvasLayer/TurnLabel
 onready var winner__screen: CenterContainer = $"CanvasLayer/Winner Screen"
 onready var piece
 onready var audio_stream_player = $AudioStreamPlayer
+onready var camera_2d__pink_piece = $Camera2D_PinkPiece
+onready var camera_2d__blue_piece = $Camera2D_BluePiece
 
 func _ready():
 	for path in game_spaces_paths:
@@ -25,7 +27,7 @@ func _ready():
 			game_spaces.append(node)
 			
 
-#	print("Game spaces size:", game_spaces[game_spaces.size() - 1])
+
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
 #	piece = pink_piece # just initilization
 	Events.connect("send_piece", self,"_on_send_piece")
@@ -45,12 +47,16 @@ func _input(event: InputEvent) -> void: # now signaling changed from dice
 func whose_turn_is_it():
 	if pink_piece_turn: # and signal change require to trigger it
 		piece = pink_piece
+		camera_2d__pink_piece.current = true
+		camera_2d__blue_piece.current = false
 	else:
-		piece = blue_piece		
+		piece = blue_piece	
+		camera_2d__pink_piece.current = false
+		camera_2d__blue_piece.current = true	
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-	roll = 6 # for testing
+#	roll = 29 # for testing
 	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 	
@@ -145,6 +151,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				yield(timer, "timeout")  
 #				print("MOVE BACK")   
 			
+			dice.can_click = true
 			turn_label_switcher()
 
 		elif game_spaces[piece.place].direction == Direction.WhichWay.FORWARD:
@@ -156,6 +163,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				timer.start()
 				yield(timer, "timeout")    
 			
+			dice.can_click = true
 			turn_label_switcher()	
 		elif game_spaces[piece.place].direction == Direction.WhichWay.QUESTION:		
 #			print("this question part is working.")	
@@ -169,6 +177,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			dice.can_click = false
 			
 		elif game_spaces[piece.place].direction == Direction.WhichWay.REGULAR:
+			dice.can_click = true
 			turn_label_switcher()
 		
 func move(piece, place):	
@@ -231,6 +240,5 @@ func turn_label_switcher():
 	else:
 		turn_label.label.text = "Blue's turn"
 		
-	
 	turn_label.timer.start()
 	
