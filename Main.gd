@@ -7,7 +7,7 @@ export(Array, NodePath) var game_spaces_paths
 export(Array, PackedScene) var question_boxes
 var game_spaces : Array = [Spot]
 var place : int = 1
-onready var dice  := $Dice
+onready var dice = $CanvasLayer/Dice
 onready var timer := $Timer
 onready var canvas_layer: CanvasLayer = $CanvasLayer
 var score : int = 0
@@ -19,6 +19,9 @@ onready var piece
 onready var audio_stream_player = $AudioStreamPlayer
 onready var camera_2d__pink_piece = $Camera2D_PinkPiece
 onready var camera_2d__blue_piece = $Camera2D_BluePiece
+onready var transition_camera = $TransitionCamera
+var piece_is_moving := false
+
 
 func _ready():
 	for path in game_spaces_paths:
@@ -47,16 +50,16 @@ func _input(event: InputEvent) -> void: # now signaling changed from dice
 func whose_turn_is_it():
 	if pink_piece_turn: # and signal change require to trigger it
 		piece = pink_piece
-		camera_2d__pink_piece.current = true
-		camera_2d__blue_piece.current = false
+#		camera_2d__pink_piece.current = true
+#		camera_2d__blue_piece.current = false
 	else:
 		piece = blue_piece	
-		camera_2d__pink_piece.current = false
-		camera_2d__blue_piece.current = true	
+#		camera_2d__pink_piece.current = false
+#		camera_2d__blue_piece.current = true	
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-#	roll = 29 # for testing
+	roll = 29 # for testing
 	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 	
@@ -181,6 +184,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			turn_label_switcher()
 		
 func move(piece, place):	
+	piece_is_moving = true
+	
 	if piece.place < game_spaces.size():
 		var tween = Tween.new() # Create a new Tween node
 		add_child(tween)
@@ -201,6 +206,7 @@ func move(piece, place):
 		yield(tween, "tween_completed") # Wait until the tween completes
 		tween.queue_free() # Remove the tween node to free memory
 	#	dice.can_click = true # this leads constant dice roll if pressed.
+	piece_is_moving = false
 
 func _on_tween_done(object, key):
 	audio_stream_player.play()
@@ -208,8 +214,10 @@ func _on_tween_done(object, key):
 func _on_send_piece(sent_piece):
 	pink_piece_turn = sent_piece
 	if pink_piece_turn: # and signal change require to trigger it
+		camera_2d__pink_piece.current = true
 		piece = pink_piece
 	else:
+		camera_2d__blue_piece.current = true
 		piece = blue_piece		
 	
 	print("THe turn is ", piece)
@@ -233,12 +241,17 @@ func _on_question_box_gone(point):
 	turn_label_switcher()
 	
 func turn_label_switcher():
+	while piece_is_moving:
+		yield(get_tree(), "idle_frame")
+		
 	turn_label.visible = true 
 	
 	if pink_piece_turn:
 		turn_label.label.text = "Pink's turn"
+		transition_camera.transition_camera2D(camera_2d__blue_piece, camera_2d__pink_piece, blue_piece)
 	else:
 		turn_label.label.text = "Blue's turn"
+		transition_camera.transition_camera2D(camera_2d__pink_piece, camera_2d__blue_piece, pink_piece)
 		
 	turn_label.timer.start()
 	

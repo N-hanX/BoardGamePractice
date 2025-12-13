@@ -47,10 +47,10 @@ position = Vector2( 512, 415 )
 [node name="Start29" parent="Spots" index="28" instance=ExtResource( 3 )]
 position = Vector2( 577, 415 )
 
-[node name="Camera2D_PinkPiece" parent="." index="10"]
+[node name="Camera2D_PinkPiece" parent="." index="9"]
 anchor_mode = 1
 
-[node name="Camera2D_BluePiece" parent="." index="11"]
+[node name="Camera2D_BluePiece" parent="." index="10"]
 anchor_mode = 1
 
 [node name="TopLeft" parent="Limits" index="0"]
@@ -61,3 +61,4 @@ position = Vector2( 640, 534 )
 
 [editable path="Camera2D_PinkPiece"]
 [editable path="Camera2D_BluePiece"]
+[editable path="TransitionCamera"]
