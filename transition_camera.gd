@@ -25,7 +25,7 @@ func _ready():
 func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Sprite):
 	print("transitioning: ", transitioning)
 	if transitioning: return
-	
+
 	
 	# transitioning steps
 	#turn this camera current and turn the current camera off
@@ -42,11 +42,10 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 	transitioning = true
 	
 	from.current = false
+	# 🔑 Wait one frame so THIS camera becomes active
 	yield(get_tree(), "idle_frame")
 	self.current = true
 	
-		# 🔑 Wait one frame so THIS camera becomes active
-	yield(get_tree(), "idle_frame")
 	
 	#move this camera
 	var tween = Tween.new() # Create a new Tween node
@@ -66,7 +65,7 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 #	tween2.interpolate_property(self, "zoom", self.zoom, Vector2(1,1), transition_speed)
 #	tween2.start()
 #	yield(tween2, "tween_completed")
-#	tween.queue_free()
+	tween.queue_free()
 #	tween2.queue_free()
 	
 	#turn this camera off and the turn the next camera on

@@ -30,7 +30,6 @@ func _ready():
 			game_spaces.append(node)
 			
 
-
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
 #	piece = pink_piece # just initilization
 	Events.connect("send_piece", self,"_on_send_piece")
@@ -40,7 +39,6 @@ func _input(event: InputEvent) -> void: # now signaling changed from dice
 	whose_turn_is_it()
 		
 	if event.is_action_pressed("ui_click") and dice.can_click == true:
-		print("Am I Here")
 		if piece.i_won == false:
 			dice.roll()
 		else:
@@ -59,7 +57,7 @@ func whose_turn_is_it():
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-	roll = 29 # for testing
+	roll = 20 # for testing
 	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 	
