@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="BoardGameTutorial"
-run/main_scene="res://PinkPiece.tscn"
+run/main_scene="res://LevelSelecter.tscn"
 config/icon="res://Art/icon.png"
 
 [autoload]
