@@ -21,7 +21,7 @@ onready var camera_2d__pink_piece = $Camera2D_PinkPiece
 onready var camera_2d__blue_piece = $Camera2D_BluePiece
 onready var transition_camera = $TransitionCamera
 var piece_is_moving := false
-
+export var board_number : int
 
 func _ready():
 	for path in game_spaces_paths:
@@ -64,6 +64,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 		# if both of these pieces are at the winner's circle
 		winner__screen.visible = true	
+		winner__screen.board_that_called_me = board_number
 		if pink_piece.score > blue_piece.score:
 			winner__screen.label.text = "Pink won!"
 			winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
@@ -91,6 +92,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 				# if both of these pieces are at the winner's circle
 				winner__screen.visible = true	
+				winner__screen.board_that_called_me = board_number
 				if pink_piece.score > blue_piece.score:
 					winner__screen.label.text = "Pink won!"
 					winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
@@ -124,6 +126,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		if blue_piece.place >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 			# if both of these pieces are at the winner's circle
 			winner__screen.visible = true	
+			winner__screen.board_that_called_me = board_number
 			if pink_piece.score > blue_piece.score:
 				winner__screen.label.text = "Pink won!"
 				winner__screen.texture_rect.texture = load("res://Art/pink piece.png")

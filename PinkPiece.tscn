@@ -23,6 +23,7 @@ position = Vector2( 0, -5 )
 script = ExtResource( 2 )
 game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19") ]
 question_boxes = [ ExtResource( 7 ), ExtResource( 6 ) ]
+board_number = 1
 
 [node name="Board" type="Sprite" parent="."]
 position = Vector2( 320, 184 )
