@@ -9,8 +9,6 @@ export(NodePath) var bottom_right_limit_path
 onready var top_left = get_node(top_left_limit_path)
 onready var bottom_right = get_node(bottom_right_limit_path)
 var transitioning : bool = false
-export var transition_speed = 1
-export var zoom_amount = Vector2(1.5, 1.5)
 
 
 func _ready():
@@ -26,16 +24,8 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 	print("transitioning: ", transitioning)
 	if transitioning: return
 
-	
 	# transitioning steps
 	#turn this camera current and turn the current camera off
-	self.zoom = from.zoom
-	self.offset = from.offset
-
-	self.limit_left   = from.limit_left
-	self.limit_top    = from.limit_top
-	self.limit_right  = from.limit_right
-	self.limit_bottom = from.limit_bottom
 
 	self.global_position = currentPiecePosition.position
 
@@ -45,28 +35,36 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 	# 🔑 Wait one frame so THIS camera becomes active
 	yield(get_tree(), "idle_frame")
 	self.current = true
-	
+
 	
 	#move this camera
 	var tween = Tween.new() # Create a new Tween node
 	add_child(tween)
 	
+	var transition_speed = 1
 	# move camera
 	tween.interpolate_property(self, "global_position", self.global_position, to.global_position, transition_speed, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-	
-	#zoom in first
-#	tween.interpolate_property(self, "zoom", self.zoom, zoom_amount, transition_speed)
 	tween.start() 	# Start the tween
 	yield(tween, "tween_completed") # Wait until the tween completes
 	
+
+	#zoom in first
+	var zoomed = Vector2(0.5, 0.5)
+	var normal = Vector2(1, 1)
+	
+	var zoomedin_tween = Tween.new()
+	add_child(zoomedin_tween)
+	zoomedin_tween.interpolate_property(self, "zoom", normal, zoomed, transition_speed, Tween.TRANS_SINE, Tween.EASE_OUT)
+	zoomedin_tween.start() 	# Start the tween
+	yield(zoomedin_tween, "tween_completed") # Wait until the tween completes
+	
 	# zoom out back to normal 
-#	var tween2 = Tween.new()
-#	add_child(tween2)
-#	tween2.interpolate_property(self, "zoom", self.zoom, Vector2(1,1), transition_speed)
-#	tween2.start()
-#	yield(tween2, "tween_completed")
-	tween.queue_free()
-#	tween2.queue_free()
+	var zoomedout_tween = Tween.new()
+	add_child(zoomedout_tween)
+	zoomedout_tween.interpolate_property(self, "zoom", zoomed, normal, transition_speed, Tween.TRANS_SINE, Tween.EASE_IN)
+	zoomedout_tween.start()
+	yield(zoomedout_tween, "tween_completed")
+	zoomedout_tween.queue_free()
 	
 	#turn this camera off and the turn the next camera on
 	self.current = false
@@ -74,3 +72,6 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 	
 	transitioning = false
 	
+	tween.queue_free()
+	zoomedin_tween.queue_free()
+	zoomedout_tween.queue_free()

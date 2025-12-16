@@ -187,8 +187,6 @@ position = Vector2( 640, 364 )
 script = ExtResource( 17 )
 top_left_limit_path = NodePath("../Limits/TopLeft")
 bottom_right_limit_path = NodePath("../Limits/BottomRight")
-transition_speed = 1
-zoom_amount = Vector2( 1.5, 1.5 )
 
 [connection signal="dice_has_rolled" from="CanvasLayer/Dice" to="." method="_on_dice_dice_has_rolled"]
 
