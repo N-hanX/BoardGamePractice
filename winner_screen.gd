@@ -11,6 +11,7 @@ func _ready():
 func _on_button_button_up():
 #	get_tree().reload_current_scene()
 	get_tree().change_scene("res://LevelSelecter.tscn")
+	Fader.fade_out()
 	match board_that_called_me:
 		1:
 			Events.board_two_enabled = true

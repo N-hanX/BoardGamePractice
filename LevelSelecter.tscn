@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Art/2.png" type="Texture" id=1]
 [ext_resource path="res://Art/1.png" type="Texture" id=2]
 [ext_resource path="res://DefaultTheme.tres" type="Theme" id=3]
 [ext_resource path="res://LevelSelecter.gd" type="Script" id=4]
 [ext_resource path="res://Art/2-disabled.png" type="Texture" id=5]
+[ext_resource path="res://Audio/Clement Panchout_ Village_ 2002.wav" type="AudioStream" id=6]
 
 [node name="LevelSelecter" type="CenterContainer"]
 anchor_right = 1.0
@@ -52,6 +53,9 @@ margin_bottom = 48.0
 disabled = true
 texture_normal = ExtResource( 1 )
 texture_disabled = ExtResource( 5 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/CenterContainer/GridContainer/One" to="." method="_on_one_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/CenterContainer/GridContainer/Two" to="." method="_on_two_pressed"]

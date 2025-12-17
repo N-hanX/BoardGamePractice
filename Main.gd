@@ -33,6 +33,7 @@ func _ready():
 	Events.connect("question_box_gone", self, "_on_question_box_gone")
 #	piece = pink_piece # just initilization
 	Events.connect("send_piece", self,"_on_send_piece")
+	Fader.fade_in()
 
 	
 func _input(event: InputEvent) -> void: # now signaling changed from dice 

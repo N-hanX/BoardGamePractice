@@ -64,7 +64,6 @@ func transition_camera2D(from: Camera2D, to: Camera2D, currentPiecePosition: Spr
 	zoomedout_tween.interpolate_property(self, "zoom", zoomed, normal, transition_speed, Tween.TRANS_SINE, Tween.EASE_IN)
 	zoomedout_tween.start()
 	yield(zoomedout_tween, "tween_completed")
-	zoomedout_tween.queue_free()
 	
 	#turn this camera off and the turn the next camera on
 	self.current = false
