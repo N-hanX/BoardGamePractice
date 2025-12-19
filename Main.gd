@@ -22,6 +22,7 @@ onready var camera_2d__blue_piece = $Camera2D_BluePiece
 onready var transition_camera = $TransitionCamera
 var piece_is_moving := false
 export var board_number : int
+var counter = 0;
 
 func _ready():
 	for path in game_spaces_paths:
@@ -59,8 +60,16 @@ func whose_turn_is_it():
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
 	roll = 20 # for testing
-	
+#	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
+
+#	if counter == 0:
+#		roll = 1
+#
+#	if counter == 1:
+#		roll = 5
+#
+#	counter = counter + 1
 	
 	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
 		# if both of these pieces are at the winner's circle
@@ -155,10 +164,8 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				timer.start()
 				yield(timer, "timeout")  
 #				print("MOVE BACK")   
-			
 			dice.can_click = true
 			turn_label_switcher()
-
 		elif game_spaces[piece.place].direction == Direction.WhichWay.FORWARD:
 			var two_spaces_forward = piece.place + 2
 			while piece.place != two_spaces_forward:     
@@ -167,20 +174,17 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				move(piece, piece.place)
 				timer.start()
 				yield(timer, "timeout")    
-			
 			dice.can_click = true
 			turn_label_switcher()	
 		elif game_spaces[piece.place].direction == Direction.WhichWay.QUESTION:		
 #			print("this question part is working.")	
 #			var question_box = preload("res://Question Boxes/questionbox.tscn")#LOAD IT
-			question_boxes.shuffle()
-						
+			question_boxes.shuffle()		
 			var question_box = question_boxes.front() #LOAD IT
 			var question = question_box.instance() #INSTANCE IT
 			canvas_layer.add_child(question) #ADD IT
 			#POSITION IT
 			dice.can_click = false
-			
 		elif game_spaces[piece.place].direction == Direction.WhichWay.REGULAR:
 			dice.can_click = true
 			turn_label_switcher()

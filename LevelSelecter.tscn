@@ -56,6 +56,7 @@ texture_disabled = ExtResource( 5 )
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+autoplay = true
 
 [connection signal="pressed" from="PanelContainer/VBoxContainer/CenterContainer/GridContainer/One" to="." method="_on_one_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/CenterContainer/GridContainer/Two" to="." method="_on_two_pressed"]

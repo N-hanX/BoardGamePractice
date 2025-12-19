@@ -21,9 +21,8 @@
 [node name="Main" type="Node2D"]
 position = Vector2( 0, -5 )
 script = ExtResource( 2 )
-game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19") ]
+game_spaces_paths = [ NodePath("Spots/Start"), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath(""), NodePath("") ]
 question_boxes = [ ExtResource( 7 ), ExtResource( 6 ) ]
-board_number = 1
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -78,64 +77,6 @@ place = 1
 [node name="Spots" type="Node" parent="."]
 
 [node name="Start" parent="Spots" instance=ExtResource( 5 )]
-
-[node name="Start2" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 128, 160 )
-
-[node name="Start3" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 192, 160 )
-
-[node name="Start4" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 256, 160 )
-
-[node name="Start5" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 320, 160 )
-
-[node name="Start6" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 384, 160 )
-direction = 2
-
-[node name="Start7" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 448, 160 )
-direction = 3
-
-[node name="Start8" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 512, 160 )
-
-[node name="Start9" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 576, 160 )
-
-[node name="Start10" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 576, 224 )
-
-[node name="Start11" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 576, 288 )
-
-[node name="Start12" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 512, 288 )
-direction = 1
-
-[node name="Start13" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 448, 288 )
-direction = 3
-
-[node name="Start14" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 384, 288 )
-
-[node name="Start15" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 320, 288 )
-
-[node name="Start16" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 256, 288 )
-
-[node name="Start17" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 192, 288 )
-
-[node name="Start18" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 128, 288 )
-
-[node name="Start19" parent="Spots" instance=ExtResource( 5 )]
-position = Vector2( 64, 288 )
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 1.5

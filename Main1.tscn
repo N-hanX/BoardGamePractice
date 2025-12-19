@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://PinkPiece.tscn" type="PackedScene" id=1]
+[ext_resource path="res://spot.tscn" type="PackedScene" id=2]
+
+[node name="Main" instance=ExtResource( 1 )]
+game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19") ]
+board_number = 1
+
+[node name="Start2" parent="Spots" index="1" instance=ExtResource( 2 )]
+position = Vector2( 128, 160 )
+
+[node name="Start3" parent="Spots" index="2" instance=ExtResource( 2 )]
+position = Vector2( 192, 160 )
+
+[node name="Start4" parent="Spots" index="3" instance=ExtResource( 2 )]
+position = Vector2( 257, 160 )
+
+[node name="Start5" parent="Spots" index="4" instance=ExtResource( 2 )]
+position = Vector2( 320, 160 )
+
+[node name="Start6" parent="Spots" index="5" instance=ExtResource( 2 )]
+position = Vector2( 386, 160 )
+direction = 2
+
+[node name="Start7" parent="Spots" index="6" instance=ExtResource( 2 )]
+position = Vector2( 450, 160 )
+direction = 3
+
+[node name="Start8" parent="Spots" index="7" instance=ExtResource( 2 )]
+position = Vector2( 512, 160 )
+
+[node name="Start9" parent="Spots" index="8" instance=ExtResource( 2 )]
+position = Vector2( 578, 160 )
+
+[node name="Start10" parent="Spots" index="9" instance=ExtResource( 2 )]
+position = Vector2( 578, 223 )
+
+[node name="Start11" parent="Spots" index="10" instance=ExtResource( 2 )]
+position = Vector2( 578, 286 )
+
+[node name="Start12" parent="Spots" index="11" instance=ExtResource( 2 )]
+position = Vector2( 512, 286 )
+direction = 1
+
+[node name="Start13" parent="Spots" index="12" instance=ExtResource( 2 )]
+position = Vector2( 450, 286 )
+direction = 3
+
+[node name="Start14" parent="Spots" index="13" instance=ExtResource( 2 )]
+position = Vector2( 386, 286 )
+
+[node name="Start15" parent="Spots" index="14" instance=ExtResource( 2 )]
+position = Vector2( 320, 286 )
+
+[node name="Start16" parent="Spots" index="15" instance=ExtResource( 2 )]
+position = Vector2( 257, 286 )
+
+[node name="Start17" parent="Spots" index="16" instance=ExtResource( 2 )]
+position = Vector2( 192, 286 )
+
+[node name="Start18" parent="Spots" index="17" instance=ExtResource( 2 )]
+position = Vector2( 128, 286 )
+
+[node name="Start19" parent="Spots" index="18" instance=ExtResource( 2 )]
+position = Vector2( 64, 286 )
+
+[node name="Camera2D_BluePiece" parent="." index="10"]
+position = Vector2( 64, 187 )
+
+[editable path="Camera2D_PinkPiece"]
+[editable path="Camera2D_BluePiece"]
+[editable path="TransitionCamera"]

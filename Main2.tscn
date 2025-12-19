@@ -5,48 +5,101 @@
 [ext_resource path="res://spot.tscn" type="PackedScene" id=3]
 
 [node name="Main2" instance=ExtResource( 1 )]
-game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19"), NodePath(""), NodePath("Spots/Start20"), NodePath("Spots/Start21"), NodePath("Spots/Start22"), NodePath("Spots/Start23"), NodePath("Spots/Start24"), NodePath("Spots/Start25"), NodePath("Spots/Start26"), NodePath("Spots/Start27"), NodePath("Spots/Start28"), NodePath("Spots/Start29") ]
+game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19"), NodePath("Spots/Start20"), NodePath("Spots/Start21"), NodePath("Spots/Start22"), NodePath("Spots/Start23"), NodePath("Spots/Start24"), NodePath("Spots/Start25"), NodePath("Spots/Start26"), NodePath("Spots/Start27"), NodePath("Spots/Start28"), NodePath("Spots/Start29") ]
 board_number = 2
 
-[node name="Board" parent="." index="0"]
-position = Vector2( 321, 270 )
+[node name="Board" parent="." index="1"]
+position = Vector2( 320, 269 )
 texture = ExtResource( 2 )
 
-[node name="Start7" parent="Spots" index="6"]
-direction = 0
+[node name="Start" parent="Spots" index="0"]
+position = Vector2( 64, 156 )
 
-[node name="Start13" parent="Spots" index="12"]
-direction = 0
+[node name="Start2" parent="Spots" index="1" instance=ExtResource( 3 )]
+position = Vector2( 129, 156 )
+
+[node name="Start3" parent="Spots" index="2" instance=ExtResource( 3 )]
+position = Vector2( 192, 156 )
+
+[node name="Start4" parent="Spots" index="3" instance=ExtResource( 3 )]
+position = Vector2( 255, 156 )
+
+[node name="Start5" parent="Spots" index="4" instance=ExtResource( 3 )]
+position = Vector2( 318, 156 )
+
+[node name="Start6" parent="Spots" index="5" instance=ExtResource( 3 )]
+position = Vector2( 385, 156 )
+direction = 2
+
+[node name="Start7" parent="Spots" index="6" instance=ExtResource( 3 )]
+position = Vector2( 447, 156 )
+
+[node name="Start8" parent="Spots" index="7" instance=ExtResource( 3 )]
+position = Vector2( 511, 156 )
+
+[node name="Start9" parent="Spots" index="8" instance=ExtResource( 3 )]
+position = Vector2( 577, 156 )
+
+[node name="Start10" parent="Spots" index="9" instance=ExtResource( 3 )]
+position = Vector2( 577, 220 )
+
+[node name="Start11" parent="Spots" index="10" instance=ExtResource( 3 )]
+position = Vector2( 577, 282 )
+
+[node name="Start12" parent="Spots" index="11" instance=ExtResource( 3 )]
+position = Vector2( 511, 285 )
+direction = 1
+
+[node name="Start13" parent="Spots" index="12" instance=ExtResource( 3 )]
+position = Vector2( 447, 285 )
+
+[node name="Start14" parent="Spots" index="13" instance=ExtResource( 3 )]
+position = Vector2( 385, 285 )
+
+[node name="Start15" parent="Spots" index="14" instance=ExtResource( 3 )]
+position = Vector2( 318, 285 )
+
+[node name="Start16" parent="Spots" index="15" instance=ExtResource( 3 )]
+position = Vector2( 255, 285 )
+
+[node name="Start17" parent="Spots" index="16" instance=ExtResource( 3 )]
+position = Vector2( 192, 285 )
+
+[node name="Start18" parent="Spots" index="17" instance=ExtResource( 3 )]
+position = Vector2( 129, 285 )
+
+[node name="Start19" parent="Spots" index="18" instance=ExtResource( 3 )]
+position = Vector2( 64, 285 )
 
 [node name="Start20" parent="Spots" index="19" instance=ExtResource( 3 )]
-position = Vector2( 64, 351 )
+position = Vector2( 64, 348 )
 
 [node name="Start21" parent="Spots" index="20" instance=ExtResource( 3 )]
-position = Vector2( 64, 415 )
+position = Vector2( 64, 412 )
 
 [node name="Start22" parent="Spots" index="21" instance=ExtResource( 3 )]
-position = Vector2( 129, 415 )
+position = Vector2( 129, 412 )
 
 [node name="Start23" parent="Spots" index="22" instance=ExtResource( 3 )]
-position = Vector2( 192, 415 )
+position = Vector2( 192, 412 )
 
 [node name="Start24" parent="Spots" index="23" instance=ExtResource( 3 )]
-position = Vector2( 256, 415 )
+position = Vector2( 255, 412 )
 
 [node name="Start25" parent="Spots" index="24" instance=ExtResource( 3 )]
-position = Vector2( 320, 415 )
+position = Vector2( 318, 412 )
 
 [node name="Start26" parent="Spots" index="25" instance=ExtResource( 3 )]
-position = Vector2( 384, 415 )
+position = Vector2( 385, 412 )
 
 [node name="Start27" parent="Spots" index="26" instance=ExtResource( 3 )]
-position = Vector2( 449, 415 )
+position = Vector2( 447, 412 )
 
 [node name="Start28" parent="Spots" index="27" instance=ExtResource( 3 )]
-position = Vector2( 512, 415 )
+position = Vector2( 511, 410 )
 
 [node name="Start29" parent="Spots" index="28" instance=ExtResource( 3 )]
-position = Vector2( 577, 415 )
+position = Vector2( 577, 410 )
 
 [node name="Camera2D_PinkPiece" parent="." index="9"]
 anchor_mode = 1
