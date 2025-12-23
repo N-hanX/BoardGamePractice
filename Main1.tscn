@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://PinkPiece.tscn" type="PackedScene" id=1]
 [ext_resource path="res://spot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Audio/board game sound.wav" type="AudioStream" id=3]
 
 [node name="Main" instance=ExtResource( 1 )]
 game_spaces_paths = [ NodePath("Spots/Start"), NodePath("Spots/Start2"), NodePath("Spots/Start3"), NodePath("Spots/Start4"), NodePath("Spots/Start5"), NodePath("Spots/Start6"), NodePath("Spots/Start7"), NodePath("Spots/Start8"), NodePath("Spots/Start9"), NodePath("Spots/Start10"), NodePath("Spots/Start11"), NodePath("Spots/Start12"), NodePath("Spots/Start13"), NodePath("Spots/Start14"), NodePath("Spots/Start15"), NodePath("Spots/Start16"), NodePath("Spots/Start17"), NodePath("Spots/Start18"), NodePath("Spots/Start19") ]
@@ -64,6 +65,10 @@ position = Vector2( 128, 286 )
 
 [node name="Start19" parent="Spots" index="18" instance=ExtResource( 2 )]
 position = Vector2( 64, 286 )
+
+[node name="AudioStreamPlayer" parent="." index="7"]
+stream = ExtResource( 3 )
+volume_db = -16.574
 
 [node name="Camera2D_BluePiece" parent="." index="10"]
 position = Vector2( 64, 187 )

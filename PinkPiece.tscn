@@ -13,7 +13,7 @@
 [ext_resource path="res://TurnLabel.tscn" type="PackedScene" id=11]
 [ext_resource path="res://winner_screen.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Roll_For_First.tscn" type="PackedScene" id=13]
-[ext_resource path="res://Audio/board game sound.wav" type="AudioStream" id=14]
+[ext_resource path="res://Audio/board game question dice.wav" type="AudioStream" id=14]
 [ext_resource path="res://Audio/Clement Panchout_ Village_ 2002.wav" type="AudioStream" id=15]
 [ext_resource path="res://Camera2D.tscn" type="PackedScene" id=16]
 [ext_resource path="res://transition_camera.gd" type="Script" id=17]

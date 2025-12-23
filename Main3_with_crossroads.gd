@@ -3,9 +3,27 @@ extends "res://Main.gd"
 var old_roll : int
 export(PackedScene) var direction_picker
 
+func _ready():
+	._ready()
+	Events.connect("picked_direction", self, "_on_picked_direction")
+	
+func _on_picked_direction(direction):
+	match direction:
+		Direction.UserPickedDirection.UP:
+			piece.place = 6
+		Direction.UserPickedDirection.DOWN:
+			piece.place = 11
+			
+	print("old_roll", old_roll)
+	move_the_piece_and_find_the_place(old_roll)
+	
 func _on_dice_dice_has_rolled(roll) -> void:
+	roll = 6
+	move_the_piece_and_find_the_place(roll)
+	
+func move_the_piece_and_find_the_place(roll):
 #	print(roll)
-	roll = 6 # for testing
+#	roll = 6 # for testing
 #	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 
@@ -54,6 +72,14 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				#ADD IT
 				canvas_layer.add_child(direction_box)
 				dice.can_click = false
+				move(piece, piece.place)
+				timer.start()                      
+				yield(timer, "timeout")  
+				
+				# NOTE: This approach seems confusing and might lead bug.
+				piece.place += 1
+				old_roll = old_roll - 1
+				return
 		else:
 			# if we've won
 			if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
