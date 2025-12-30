@@ -17,6 +17,12 @@ direction_picker = ExtResource( 5 )
 position = Vector2( 320, 185 )
 texture = ExtResource( 2 )
 
+[node name="PinkPiece" parent="." index="2"]
+position = Vector2( 63, 224 )
+
+[node name="BluePiece" parent="." index="3"]
+position = Vector2( 63, 259 )
+
 [node name="Start" parent="Spots" index="0"]
 position = Vector2( 64, 238 )
 
@@ -46,7 +52,7 @@ position = Vector2( 448, 172 )
 position = Vector2( 512, 171 )
 
 [node name="Start10" parent="Spots" index="9" instance=ExtResource( 3 )]
-position = Vector2( 579, 178 )
+position = Vector2( 579, 171 )
 
 [node name="Start11" parent="Spots" index="10" instance=ExtResource( 3 )]
 position = Vector2( 321, 302 )
@@ -66,6 +72,9 @@ position = Vector2( 579, 302 )
 [node name="AudioStreamPlayer" parent="." index="7"]
 stream = ExtResource( 6 )
 volume_db = -14.916
+
+[node name="Camera2D_BluePiece" parent="." index="10"]
+position = Vector2( 64, 257 )
 
 [editable path="Camera2D_PinkPiece"]
 [editable path="Camera2D_BluePiece"]

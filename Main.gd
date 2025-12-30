@@ -25,6 +25,7 @@ export var board_number : int
 var counter = 0;
 
 func _ready():
+	game_spaces.clear()
 	for path in game_spaces_paths:
 		var node = get_node(path)
 		if node and node is Position2D:
@@ -59,7 +60,7 @@ func whose_turn_is_it():
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-	roll = 20 # for testing
+	roll = 4 # for testing there is a bug backward
 #	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 

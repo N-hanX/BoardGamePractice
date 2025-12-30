@@ -5,21 +5,31 @@ export(PackedScene) var direction_picker
 
 func _ready():
 	._ready()
+	print("game space size:", game_spaces.size())
 	Events.connect("picked_direction", self, "_on_picked_direction")
 	
 func _on_picked_direction(direction):
 	match direction:
 		Direction.UserPickedDirection.UP:
-			piece.place = 6
+			piece.place = 5
 		Direction.UserPickedDirection.DOWN:
-			piece.place = 11
+			piece.place = 10
 			
 	print("old_roll", old_roll)
 	move_the_piece_and_find_the_place(old_roll)
 	
 func _on_dice_dice_has_rolled(roll) -> void:
-	roll = 6
+
 	move_the_piece_and_find_the_place(roll)
+	
+func is_both_pieces_at_end_of_board():
+	var place1 = blue_piece.place
+	var place2 = pink_piece.place
+	
+	return is_piece_at_the_end_of_board(place1) and is_piece_at_the_end_of_board(place2) 
+	
+func is_piece_at_the_end_of_board(place) -> bool:
+	return place >= game_spaces.size() - 1
 	
 func move_the_piece_and_find_the_place(roll):
 #	print(roll)
@@ -35,7 +45,7 @@ func move_the_piece_and_find_the_place(roll):
 #
 #	counter = counter + 1
 	
-	if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
+	if is_both_pieces_at_end_of_board():
 		# if both of these pieces are at the winner's circle
 		winner__screen.visible = true	
 		winner__screen.board_that_called_me = board_number
@@ -52,16 +62,7 @@ func move_the_piece_and_find_the_place(roll):
 		return
 	
 	while roll > 0:
-		if piece.place < game_spaces.size():
-			# if we've not won
-			move(piece, piece.place)
-			timer.start()                      
-			yield(timer, "timeout")     
-	#		print("MOVE REGULAR ")       
-			piece.place += 1
-			roll -= 1
-			print("moving to: ", piece.place)
-			
+		if piece.place < game_spaces.size() :
 			if game_spaces[piece.place].direction == Direction.WhichWay.CROSSROAD:
 				print("CROSS ROAD")
 				old_roll = roll
@@ -80,9 +81,19 @@ func move_the_piece_and_find_the_place(roll):
 				piece.place += 1
 				old_roll = old_roll - 1
 				return
+				
+			move(piece, piece.place)
+			timer.start()                      
+			yield(timer, "timeout")     
+	#		print("MOVE REGULAR ")   
+			if piece.place == 9: # this is for upside part
+				piece.place = game_spaces.size()
+			else:
+				piece.place += 1
+				roll -= 1
 		else:
 			# if we've won
-			if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
+			if is_both_pieces_at_end_of_board():
 				# if both of these pieces are at the winner's circle
 				winner__screen.visible = true	
 				winner__screen.board_that_called_me = board_number
@@ -99,15 +110,11 @@ func move_the_piece_and_find_the_place(roll):
 				break
 			else:
 				# if just one is at the winner's circle
-				piece.place = game_spaces.size()
-				piece.i_won = true
-				dice.can_click = true
-				pink_piece_turn = !pink_piece_turn
-				turn_label_switcher()
+				one_piece_won()
 				return
 			
 	if roll == 0: # signs of stop the move
-		if piece.place >= game_spaces.size():	
+		if piece.place >= game_spaces.size() or piece.place == 10:	
 			dice.can_click = true
 			turn_label_switcher()
 			return
@@ -116,7 +123,7 @@ func move_the_piece_and_find_the_place(roll):
 		timer.start()                      
 		yield(timer, "timeout")     
 #		print("MOVE REGULAR for roll = 0 ")    
-		if blue_piece.place >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
+		if is_both_pieces_at_end_of_board():
 			# if both of these pieces are at the winner's circle
 			winner__screen.visible = true	
 			winner__screen.board_that_called_me = board_number
@@ -151,7 +158,7 @@ func move_the_piece_and_find_the_place(roll):
 			turn_label_switcher()
 		elif game_spaces[piece.place].direction == Direction.WhichWay.FORWARD:
 			var two_spaces_forward = piece.place + 2
-			while piece.place != two_spaces_forward:     
+			while piece.place != two_spaces_forward:   
 				piece.place += 1
 #				print("MOVE forward ")      
 				move(piece, piece.place)
@@ -171,3 +178,10 @@ func move_the_piece_and_find_the_place(roll):
 		elif game_spaces[piece.place].direction == Direction.WhichWay.REGULAR:
 			dice.can_click = true
 			turn_label_switcher()
+
+func one_piece_won():
+	piece.place = game_spaces.size()
+	piece.i_won = true
+	dice.can_click = true
+	pink_piece_turn = !pink_piece_turn
+	turn_label_switcher()
