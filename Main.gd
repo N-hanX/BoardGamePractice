@@ -23,6 +23,7 @@ onready var transition_camera = $TransitionCamera
 var piece_is_moving := false
 export var board_number : int
 var counter = 0;
+export var bounceback_board : bool
 
 func _ready():
 	game_spaces.clear()
@@ -60,7 +61,7 @@ func whose_turn_is_it():
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-	roll = 4 # for testing there is a bug backward
+	roll = 25# for testing there is a bug backward
 #	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 
@@ -117,14 +118,21 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				break
 			else:
 				# if just one is at the winner's circle
+				if roll > 0 and bounceback_board == true:
+					print('bounce back is active')
+					bounceback(roll)
+					print('end of bounce back')
+					return
+				
+				print('end of game space')	
 				piece.place = game_spaces.size()
 				piece.i_won = true
 				dice.can_click = true
-				pink_piece_turn = !pink_piece_turn
+#				pink_piece_turn = !pink_piece_turn
 				turn_label_switcher()
-				return
-			
+				return		
 	if roll == 0: # signs of stop the move
+		print('last step of roll')
 		if piece.place >= game_spaces.size():	
 			dice.can_click = true
 			turn_label_switcher()
@@ -189,6 +197,26 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		elif game_spaces[piece.place].direction == Direction.WhichWay.REGULAR:
 			dice.can_click = true
 			turn_label_switcher()
+			
+func bounceback(roll):
+	var go_back = piece.place - (roll - 1)
+	while piece.place != go_back:    
+		piece.place -= 1
+		move(piece, piece.place)
+		timer.start()
+		yield(timer, "timeout") 
+		
+	if pink_piece_turn:
+		print("pink piece's turn")
+		pink_piece_turn = false
+	else:
+		print("blue piece's turn")
+		pink_piece_turn = true
+		
+	dice.can_click = true
+	turn_label_switcher()	
+	print('end bounceback func')
+	
 		
 func move(piece, place):	
 	piece_is_moving = true
