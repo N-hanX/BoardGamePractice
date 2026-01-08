@@ -61,7 +61,7 @@ func whose_turn_is_it():
 
 func _on_dice_dice_has_rolled(roll) -> void:
 #	print(roll)
-	roll = 25# for testing there is a bug backward
+	roll = 18# for testing there is a bug backward
 #	
 #	if piece == pink_piece: roll = 20 # specific case test fix:  dice still rolling illogically
 
@@ -90,6 +90,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		return
 	
 	while roll > 0:
+		print('roll:', roll)
 		if piece.place < game_spaces.size():
 			# if we've not won
 			move(piece, piece.place)
@@ -102,19 +103,7 @@ func _on_dice_dice_has_rolled(roll) -> void:
 		else:
 			# if we've won
 			if blue_piece.place  >= game_spaces.size() - 1 and pink_piece.place >= game_spaces.size() - 1:
-				# if both of these pieces are at the winner's circle
-				winner__screen.visible = true	
-				winner__screen.board_that_called_me = board_number
-				if pink_piece.score > blue_piece.score:
-					winner__screen.label.text = "Pink won!"
-					winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
-				elif blue_piece.score > pink_piece.score:
-					winner__screen.label.text = "Blue won!"
-					winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
-				else:
-					print("both won")
-					winner__screen.label.text = "It is a tie!"
-					winner__screen.texture_rect.texture = load("res://Art/both.png")
+				win()
 				break
 			else:
 				# if just one is at the winner's circle
@@ -132,9 +121,30 @@ func _on_dice_dice_has_rolled(roll) -> void:
 				turn_label_switcher()
 				return		
 	if roll == 0: # signs of stop the move
+		print('roll==0:', roll)
 		print('last step of roll')
+		
+		if bounceback_board and piece.place == game_spaces.size():
+			dice.can_click = true
+			pink_piece_turn = !pink_piece_turn
+			piece.i_won = true
+			if pink_piece.i_won == true and blue_piece.i_won == true:
+				win()
+				return
+				
+			whose_turn_is_it()
+			turn_label_switcher()
+			return
+		
 		if piece.place >= game_spaces.size():	
 			dice.can_click = true
+			piece.i_won = true
+			pink_piece_turn = !pink_piece_turn
+			if pink_piece.i_won == true and blue_piece.i_won == true:
+				win()
+				return
+			
+			whose_turn_is_it()
 			turn_label_switcher()
 			return
 		
@@ -198,6 +208,23 @@ func _on_dice_dice_has_rolled(roll) -> void:
 			dice.can_click = true
 			turn_label_switcher()
 			
+			
+func win():
+	# if both of these pieces are at the winner's circle
+	winner__screen.visible = true	
+	winner__screen.board_that_called_me = board_number
+	if pink_piece.score > blue_piece.score:
+		winner__screen.label.text = "Pink won!"
+		winner__screen.texture_rect.texture = load("res://Art/pink piece.png")
+	elif blue_piece.score > pink_piece.score:
+		winner__screen.label.text = "Blue won!"
+		winner__screen.texture_rect.texture = load("res://Art/blue piece.png")
+	else:
+		print("both won")
+		winner__screen.label.text = "It is a tie!"
+		winner__screen.texture_rect.texture = load("res://Art/both.png")
+		
+		
 func bounceback(roll):
 	var go_back = piece.place - (roll - 1)
 	while piece.place != go_back:    
@@ -276,17 +303,18 @@ func _on_question_box_gone(point):
 	turn_label_switcher()
 	
 func turn_label_switcher():
-	while piece_is_moving:
-		yield(get_tree(), "idle_frame")
+	if !pink_piece.i_won or !blue_piece.i_won:
+		while piece_is_moving:
+			yield(get_tree(), "idle_frame")
+			
+		turn_label.visible = true 
 		
-	turn_label.visible = true 
-	
-	if pink_piece_turn:
-		turn_label.label.text = "Pink's turn"
-		transition_camera.transition_camera2D(camera_2d__blue_piece, camera_2d__pink_piece, blue_piece)
-	else:
-		turn_label.label.text = "Blue's turn"
-		transition_camera.transition_camera2D(camera_2d__pink_piece, camera_2d__blue_piece, pink_piece)
-		
-	turn_label.timer.start()
+		if pink_piece_turn:
+			turn_label.label.text = "Pink's turn"
+			transition_camera.transition_camera2D(camera_2d__blue_piece, camera_2d__pink_piece, blue_piece)
+		else:
+			turn_label.label.text = "Blue's turn"
+			transition_camera.transition_camera2D(camera_2d__pink_piece, camera_2d__blue_piece, pink_piece)
+			
+		turn_label.timer.start()
 	
